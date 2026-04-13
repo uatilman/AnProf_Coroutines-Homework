@@ -2,7 +2,6 @@ package otus.homework.coroutines.ui
 
 import android.content.Context
 import android.util.AttributeSet
-import android.view.View
 import android.widget.Button
 import android.widget.ImageView
 import android.widget.ProgressBar
@@ -12,10 +11,10 @@ import androidx.constraintlayout.widget.ConstraintLayout
 import com.squareup.picasso.Picasso
 import otus.homework.coroutines.R
 import otus.homework.coroutines.model.CatsData
-import otus.homework.coroutines.model.Result
-import otus.homework.coroutines.model.Success
 import otus.homework.coroutines.model.Error
 import otus.homework.coroutines.model.Loading
+import otus.homework.coroutines.model.Result
+import otus.homework.coroutines.model.Success
 import otus.homework.coroutines.presentation.CatsPresenter
 import otus.homework.coroutines.presentation.CatsViewModel
 import otus.homework.coroutines.presentation.ICatsView
@@ -44,7 +43,7 @@ class CatsView @JvmOverloads constructor(
         imageView = findViewById(R.id.imageView)
         progressBar = findViewById(R.id.progressBar)
         button = findViewById(R.id.button)
-        
+
         button?.setOnClickListener {
             presenter?.onInitComplete()
             viewModel?.onInitComplete()
@@ -62,11 +61,12 @@ class CatsView @JvmOverloads constructor(
             is Loading -> {
                 showLoading(true)
             }
+
             is Success -> {
                 showLoading(false)
                 val data = result.data
                 factTextView?.text = data.fact.text
-                
+
                 // Устанавливаем AspectRatio на основе размеров картинки
                 imageView?.let { view ->
                     val params = view.layoutParams as LayoutParams
@@ -80,6 +80,7 @@ class CatsView @JvmOverloads constructor(
                     .error(android.R.drawable.ic_menu_close_clear_cancel)
                     .into(imageView)
             }
+
             is Error -> {
                 showLoading(false)
                 showToast(result.message)
@@ -88,7 +89,7 @@ class CatsView @JvmOverloads constructor(
     }
 
     private fun showLoading(isLoading: Boolean) {
-        progressBar?.visibility = if (isLoading) View.VISIBLE else View.GONE
+        progressBar?.visibility = if (isLoading) VISIBLE else GONE
         button?.isEnabled = !isLoading
     }
 

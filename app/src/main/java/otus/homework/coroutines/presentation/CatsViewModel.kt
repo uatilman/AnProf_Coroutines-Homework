@@ -58,7 +58,7 @@ class CatsViewModel(
                 val image = imageDeferred.await()
 
                 _state.value = Success(CatsData(fact, image))
-            } catch (e: SocketTimeoutException) {
+            } catch (_: SocketTimeoutException) {
                 _state.value = Error("Не удалось получить ответ от сервера")
             }
         }
