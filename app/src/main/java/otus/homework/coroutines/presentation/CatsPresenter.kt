@@ -6,7 +6,6 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.SupervisorJob
 import kotlinx.coroutines.async
-import kotlinx.coroutines.cancel
 import kotlinx.coroutines.launch
 import otus.homework.coroutines.CrashMonitor
 import otus.homework.coroutines.model.CatsData
@@ -40,7 +39,7 @@ class CatsPresenter(
      * Параллельность обеспечена async { ... }.await().
      */
     fun onInitComplete() {
-        fetchJob?.cancel() 
+        fetchJob?.cancel()
 
         fetchJob = presenterScope.launch {
             _catsView?.populate(Loading)
@@ -63,10 +62,11 @@ class CatsPresenter(
 
     /**
      * Отмена всех корутин Presenter.
-     * Реализовано согласно пункту задания об отмене в onStop.
+     * Исправлено по ревью: отменяем только текущую задачу, а не весь Scope,
+     * чтобы при возврате на экран презентер продолжал работать.
      */
     fun onStop() {
-        presenterScope.cancel()
+        fetchJob?.cancel()
     }
 
     fun attachView(catsView: ICatsView) {

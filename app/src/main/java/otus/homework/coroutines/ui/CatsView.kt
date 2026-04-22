@@ -16,12 +16,10 @@ import otus.homework.coroutines.model.Loading
 import otus.homework.coroutines.model.Result
 import otus.homework.coroutines.model.Success
 import otus.homework.coroutines.presentation.CatsPresenter
-import otus.homework.coroutines.presentation.CatsViewModel
 import otus.homework.coroutines.presentation.ICatsView
 
 /**
  * Кастомная View для отображения фактов и картинок.
- * Реализовано в рамках ТЗ: единый метод populate для всех состояний.
  */
 class CatsView @JvmOverloads constructor(
     context: Context,
@@ -30,7 +28,6 @@ class CatsView @JvmOverloads constructor(
 ) : ConstraintLayout(context, attrs, defStyleAttr), ICatsView {
 
     var presenter: CatsPresenter? = null
-    var viewModel: CatsViewModel? = null
 
     private var factTextView: TextView? = null
     private var imageView: ImageView? = null
@@ -46,13 +43,12 @@ class CatsView @JvmOverloads constructor(
 
         button?.setOnClickListener {
             presenter?.onInitComplete()
-            viewModel?.onInitComplete()
         }
     }
 
     /**
-     * Заполнение данными. 
-     * Согласно пункту ТЗ принимает один объект (Result), 
+     * Заполнение данными.
+     * Согласно пункту ТЗ принимает один объект (Result),
      * содержащий все необходимые данные или ошибку.
      * Использует размеры изображения для установки AspectRatio.
      */

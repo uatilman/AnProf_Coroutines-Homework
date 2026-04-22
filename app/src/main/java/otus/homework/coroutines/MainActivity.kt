@@ -1,7 +1,8 @@
 package otus.homework.coroutines
 
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.widget.Button
+import androidx.appcompat.app.AppCompatActivity
 import otus.homework.coroutines.di.DiContainer
 import otus.homework.coroutines.presentation.CatsPresenter
 import otus.homework.coroutines.presentation.CatsViewModel
@@ -37,10 +38,16 @@ class MainActivity : AppCompatActivity() {
 
     private fun initViewModel(view: CatsView) {
         catsViewModel = CatsViewModel(diContainer.service)
-        view.viewModel = catsViewModel
+        // Согласно ревью, View не должна хранить ссылку на ViewModel
         catsViewModel.state.observe(this) { result ->
             view.populate(result)
         }
+
+        // Обработка нажатия кнопки для ViewModel реализации
+        findViewById<Button>(R.id.button)?.setOnClickListener {
+            catsViewModel.onInitComplete()
+        }
+
         catsViewModel.onInitComplete()
     }
 
